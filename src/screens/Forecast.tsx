@@ -8,7 +8,7 @@ export default function Forecast() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const now = new Date().getTime() / 1000;
-  const [color, setColor] = useState('white');
+  const [color, setColor] = useState('black');
 
   // useEffect(() => {
   //   if (state[0].current) {

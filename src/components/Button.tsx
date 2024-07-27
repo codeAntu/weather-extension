@@ -9,7 +9,7 @@ export default function Button({
 }) {
   return (
     <button
-      className={`text-blue-500 rounded-2xl px-1 py-1.5 w-full hover:bg-blue-500/5 hover:border-blue-500/30 duration-500 font-bold text-sm transition border border-blue-500/20`}
+      className={`w-full rounded-2xl border border-white/20 bg-white/0 px-1 py-1.5 text-sm font-bold text-white transition duration-300 hover:border-white/30 hover:bg-white/5`}
       onClick={onClick}
     >
       {children}

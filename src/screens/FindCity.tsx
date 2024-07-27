@@ -1,131 +1,124 @@
-import { MapPin, Search, Trees } from "lucide-react";
-import { useEffect, useState } from "react";
-import API from "../lib/api";
-import { useNavigate } from "react-router-dom";
-import ls from "../lib/saveData";
-import Button from "../components/Button";
+import { ChevronLeft, Divide, MapPin, Search, Trees } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import API from '../lib/api';
+import { useNavigate } from 'react-router-dom';
+import ls from '../lib/saveData';
+import Button from '../components/Button';
 
 export default function Find() {
-  const loc = {
-    coord: {
-      lon: 87.0524,
-      lat: 23.2256,
-    },
-    weather: [
-      {
-        id: 804,
-        main: "Clouds",
-        description: "overcast clouds",
-        icon: "13d",
-      },
-    ],
-    base: "stations",
-    main: {
-      temp: 305.21,
-      feels_like: 312.21,
-      temp_min: 305.21,
-      temp_max: 305.21,
-      pressure: 1001,
-      humidity: 80,
-      sea_level: 1001,
-      grnd_level: 992,
-    },
-    visibility: 10000,
-    wind: {
-      speed: 3.34,
-      deg: 165,
-      gust: 6.48,
-    },
-    clouds: {
-      all: 91,
-    },
-    dt: 1694259252,
-    sys: {
-      type: 1,
-      id: 9144,
-      country: "IN",
-      sunrise: 1694217384,
-      sunset: 1694262162,
-    },
-    timezone: 19800,
-    id: 1277264,
-    name: "Bānkura",
-    cod: 200,
-  };
-
-  const [locations, setLocations] = useState(loc);
+  const [locations, setLocations] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [city, setCity] = useState("Bankura");
+  const [city, setCity] = useState( ls.get('searchedCity') || '');
+  const [loading, setLoading] = useState(false);
+  const [found, setFound] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const data = ls.get("city");
-    if (data) {
-      setCity(data);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const data = ls.get('searchedCity')
+  //   if (data) {
+  //     setCity(data);
+  //     console.log(data);
+  //   }
+  // }, []);
 
   async function getResults(query: string) {
+    setSearchResults([]);
+    setLoading(true);
+    setFound(true);
     try {
       const result = await fetch(API.cities(query)).then((res) => res.json());
+
+      if (result.length === 0) {
+        setFound(false);
+        setLoading(false);
+        return;
+      }
+
       setSearchResults(result);
-      console.log(searchResults);
+      // console.log(searchResults);
     } catch (err) {
       console.log(err);
     }
-    // console.log(searchResults);
+    setLoading(false);
   }
 
-  // useEffect(() => {
-  //   if (city.length <= 2) return;
-  //   getResults(city.toLocaleLowerCase());
-  // }, [city]);
+  useEffect(() => {
+    if (city.length <= 2) return;
+    getResults(city.toLocaleLowerCase());
+  }, []);
 
-  console.log(searchResults);
+  useEffect(() => {
+    setFound(true);
+    setSearchResults([]);
+  }, [city]);
+
+  // console.log(searchResults);
+
+  // console.log(city);
+  // console.log(ls.get('searchedCity'));
 
   return (
     <div
-      className="bg-black text-white w-[280px] px-4 max-h-96 overflow-auto min-h-96"
+      className='max-h-96 min-h-96 w-[280px] overflow-auto bg-black px-2.5 pb-2.5 text-white'
       style={{
         backgroundImage: `url(/backImg/white.png)`,
       }}
     >
-      <div className="text-xl font-medium text-center py-4">Find Your City</div>
+      <div className='flex items-center gap-10 py-4'>
+        <ChevronLeft
+          className='cursor-pointer rounded-lg bg-white/0 p-1 duration-200 hover:bg-white/5'
+          size={30}
+          onClick={() => navigate('/')}
+        />
+        <div className='text-center text-xl font-medium'>Find Your City</div>
+      </div>
 
-      <div className="flex justify-center items-center gap-2 border border-white/50 rounded-2xl py-1 mx-1">
+      <div className='mx-2 flex items-center justify-between gap-2 rounded-2xl border border-white/50 px-2.5 py-1'>
         <input
-          type="text"
+          type='text'
           value={city}
-          className="bg-transparent border-none outline-none  text-white/80"
+          className='border-none bg-transparent text-white/80 outline-none'
           onChange={(e) => {
             setCity(e.target.value);
           }}
+          autoFocus
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              getResults(city.toLocaleLowerCase());
+            }
+          }}
         />
         <Search
-          className=""
+          className='cursor-pointer'
           size={20}
           onClick={() => {
             getResults(city.toLocaleLowerCase());
           }}
         />
       </div>
-      <div className="p-3"></div>
-      <div className="bg-white/0 p-2 rounded-xl grid gap-2">
+      <div className='grid gap-2 rounded-xl bg-white/0 p-2 pt-3'>
+        {searchResults.length === 0 && loading == false && (
+          <div className='pt-5 text-center text-white/80'>Search for a city</div>
+        )}
+        {loading && <div className='pt-5 text-center text-white/80'>Loading...</div>}
+        {!found && <div className='text-center text-sm text-white/80'>No results found</div>}
         {searchResults.map((result: any) => {
           return (
             <div
               key={Math.random()}
               onClick={() => {
+                ls.set('searchedCity', result.EnglishName);
+                console.log(result.EnglishName);
                 navigate(`/city/${result.EnglishName}`, { state: result });
               }}
-              className="bg-white/5 rounded-xl p-2 cursor-pointer hover:bg-white/10 transition"
+              className='cursor-pointer rounded-xl bg-white/5 p-2 pl-2.5 transition duration-300 hover:bg-white/10'
             >
               <ShowCity city={result} />
             </div>
           );
         })}
+        {searchResults.length > 0 && <div className='py-1 text-center text-sm text-white/50'>Select Your city</div>}
       </div>
-      <div className="p-4"></div>
     </div>
   );
 }
@@ -134,10 +127,9 @@ function ShowCity({ city }: any) {
   // console.log(city);
 
   return (
-    <div className="flex justify-between items-center" onClick={() => {}}>
-      <div className="line-clamp-1">
-        {city.EnglishName} , {city.AdministrativeArea.EnglishName} ,{" "}
-        {city.Country.EnglishName}
+    <div className='flex items-center justify-between' onClick={() => {}}>
+      <div className='line-clamp-1'>
+        {city.EnglishName} , {city.AdministrativeArea.EnglishName} , {city.Country.EnglishName}
       </div>
     </div>
   );

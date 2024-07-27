@@ -59,18 +59,18 @@ export default function Find() {
 
   return (
     <div
-      className='max-h-96 min-h-96 w-[280px] overflow-auto bg-black px-2.5 pb-2.5 text-white'
+      className='max-h-96 min-h-96 w-[280px] font-poppins overflow-auto bg-black px-2.5 pb-2.5 text-white'
       style={{
         backgroundImage: `url(/backImg/white.png)`,
       }}
     >
-      <div className='flex items-center gap-10 py-4'>
+      <div className='flex items-center gap-2 py-4'>
         <ChevronLeft
           className='cursor-pointer rounded-lg bg-white/0 p-1 duration-200 hover:bg-white/5'
           size={30}
           onClick={() => navigate('/')}
         />
-        <div className='text-center text-base font-medium'>Find Your City</div>
+        <div className='text-center text-base font-medium font-rubik'>Find Your City</div>
       </div>
 
       <div className='mx-2 flex items-center justify-between gap-2 rounded-xl border border-white/35 px-3 pr-2.5 py-1.5'>

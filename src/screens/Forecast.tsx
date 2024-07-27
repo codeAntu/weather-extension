@@ -27,6 +27,7 @@ export default function Forecast() {
         backgroundImage: `url(/backImg/${color}.png)`,
       }}
     >
+      
       <div className={`text-center text-xl font-medium opacity-80 `}>
         Weather Forecast
       </div>

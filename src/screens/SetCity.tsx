@@ -18,7 +18,7 @@ export default function SetCity() {
 
   return (
     <div
-      className='min-h-96 w-[280px] bg-black px-2.5 text-white'
+      className='min-h-96 w-[280px] bg-black px-2.5 text-white '
       style={{
         backgroundImage: `url(/backImg/white.png)`,
       }}
@@ -29,7 +29,7 @@ export default function SetCity() {
           size={30}
           onClick={() => navigate('/city')}
         />
-        <div className='text-center text-xl font-medium'> {state.EnglishName}</div>
+        <div className='text-center text-base font-medium'> {state.EnglishName}</div>
       </div>
       <div className='p-2.5 flex flex-col gap-2' >
         <div className='mb-2 flex justify-around rounded-xl border border-white/5 bg-white/5'>

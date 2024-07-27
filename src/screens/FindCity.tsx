@@ -70,14 +70,14 @@ export default function Find() {
           size={30}
           onClick={() => navigate('/')}
         />
-        <div className='text-center text-xl font-medium'>Find Your City</div>
+        <div className='text-center text-base font-medium'>Find Your City</div>
       </div>
 
-      <div className='mx-2 flex items-center justify-between gap-2 rounded-2xl border border-white/50 px-2.5 py-1'>
+      <div className='mx-2 flex items-center justify-between gap-2 rounded-xl border border-white/35 px-3 pr-2.5 py-1.5'>
         <input
           type='text'
           value={city}
-          className='border-none bg-transparent text-white/80 outline-none'
+          className='border-none bg-transparent text-white/80 outline-none text-sm'
           onChange={(e) => {
             setCity(e.target.value);
           }}
@@ -89,8 +89,8 @@ export default function Find() {
           }}
         />
         <Search
-          className='cursor-pointer'
-          size={20}
+          className='cursor-pointer text-white/80'
+          size={16}
           onClick={() => {
             getResults(city.toLocaleLowerCase());
           }}
@@ -111,7 +111,7 @@ export default function Find() {
                 console.log(result.EnglishName);
                 navigate(`/city/${result.EnglishName}`, { state: result });
               }}
-              className='cursor-pointer rounded-xl bg-white/5 p-2 pl-2.5 transition duration-300 hover:bg-white/10'
+              className='cursor-pointer rounded-xl bg-white/5 p-2 pl-3 transition duration-300 hover:bg-white/10'
             >
               <ShowCity city={result} />
             </div>
@@ -127,7 +127,7 @@ function ShowCity({ city }: any) {
   // console.log(city);
 
   return (
-    <div className='flex items-center justify-between' onClick={() => {}}>
+    <div className='flex items-center justify-between text-sm' onClick={() => {}}>
       <div className='line-clamp-1'>
         {city.EnglishName} , {city.AdministrativeArea.EnglishName} , {city.Country.EnglishName}
       </div>

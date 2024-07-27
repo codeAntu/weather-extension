@@ -22,7 +22,6 @@ function App() {
   const navigate = useNavigate();
   const [lon, setLon] = useState(0);
   const [lat, setLat] = useState(0);
-  //   lat: 23.237,
   //   lon: 87.059,
   //   timezone: 'Asia/Kolkata',
   //   timezone_offset: 19800,
@@ -1537,6 +1536,8 @@ function App() {
 
   console.log(color);
 
+  
+
   if (!city) {
     return (
       <div
@@ -1637,7 +1638,7 @@ function App() {
         </div>
       ) : (
         <div
-          className={`bg-${color} text-${color} w-[280px] p-4`}
+          className={`bg-${color} text-${color} w-[280px] p-4 font-poppins` }
           style={{
             backgroundImage: `url(/backImg/${color}.png)`,
           }}
@@ -1652,13 +1653,16 @@ function App() {
             />
           </div>
           <div className={`py-3 text-center text-7xl font-semibold`}>
-            <div className=''>00.0&deg;</div>
+            {/* <div className=''>00.0&deg;</div> */}
+            <div className='text-center flex justify-center items-center py-5'>
+              <Loader size={30} />
+            </div>
           </div>
           <div className={`mt-4 grid grid-cols-2 gap-2`}>
-            <ShowCurr title='Humidity' value={'100' + '%'} icon={<Droplets size={24} />} color={color} />
+            <ShowCurr title='Humidity' value={'---' } icon={<Droplets size={24} />} color={color} />
             <ShowCurr title='' value={'cloudy'} color={color} />
-            <ShowCurr title='Feels like' value={'00.0' + '°'} icon={<ThermometerSun size={24} />} color={color} />
-            <ShowCurr title='pressure' value={'100' + 'hPa'} icon={<BarChart size={24} />} color={color} />
+            <ShowCurr title='Feels like' value={'---' } icon={<ThermometerSun size={24} />} color={color} />
+            <ShowCurr title='pressure' value={'---'} icon={<BarChart size={24} />} color={color} />
           </div>
           <div className={`flex items-center justify-around gap-3 py-2 pt-5`}>
             <Button>Today</Button>

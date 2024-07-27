@@ -8,19 +8,19 @@ import {
   Sunset,
   Tornado,
   Wind,
-} from 'lucide-react';
-import { useEffect, useState } from 'react';
-import ls from '../lib/saveData';
-import API from '../lib/api';
-import { useLoaderData, useLocation } from 'react-router-dom';
-import getWeatherEmoji from '../lib/weatherEmo';
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import ls from "../lib/saveData";
+import API from "../lib/api";
+import { useLoaderData, useLocation } from "react-router-dom";
+import getWeatherEmoji from "../lib/weatherEmo";
 
 export default function Today() {
   const { state } = useLocation();
   const time = new Date().getTime();
   const hourly: Array<any> = [];
   const now = new Date().getTime() / 1000;
-  const [color, setColor] = useState('white');
+  const [color, setColor] = useState("white");
 
   state.hourly.forEach((element: any) => {
     if (element.dt * 1000 > time - 360000 && hourly.length < 5) {
@@ -37,7 +37,7 @@ export default function Today() {
       const sunrise = state.current.sunrise;
       const sunset = state.current.sunset;
       if (now > sunrise && now < sunset) {
-        setColor('white');
+        setColor("white");
       }
     }
   }, []);
@@ -76,19 +76,19 @@ export default function Today() {
         />
         <ShowCurr
           title="Wind direction"
-          value={state.current.wind_deg + '°'}
+          value={state.current.wind_deg + "°"}
           icon={<Wind size={20} />}
           color={color}
         />
         <ShowCurr
           title="Wind speed"
-          value={state.current.wind_speed + 'm/s'}
+          value={state.current.wind_speed + "m/s"}
           icon={<Tornado size={20} />}
           color={color}
         />
         <ShowCurr
           title="Due point"
-          value={state.current.dew_point + '°'}
+          value={state.current.dew_point + "°"}
           icon={<Droplet size={20} />}
           color={color}
         />

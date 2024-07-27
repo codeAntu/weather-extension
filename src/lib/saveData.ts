@@ -1,4 +1,4 @@
-const app = 'weatherExtension';
+const app = "weatherExtension";
 
 const ls = {
   get: (item: string) => {
@@ -14,7 +14,7 @@ const ls = {
   },
   getJsonFn: (item: string) => {
     return function () {
-      return JSON.parse(ls.get(item) || '{}');
+      return JSON.parse(ls.get(item) || "{}");
     };
   },
 };

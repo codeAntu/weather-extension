@@ -1,7 +1,7 @@
-import { DumbbellIcon } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
-import ls from '../lib/saveData';
+import { DumbbellIcon } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import ls from "../lib/saveData";
 
 export default function SetCity() {
   const { state } = useLocation();
@@ -10,15 +10,15 @@ export default function SetCity() {
   console.log(state);
 
   function setCity() {
-    ls.set('city', state.EnglishName);
-    ls.set('lat', state.GeoPosition.Latitude);
-    ls.set('lon', state.GeoPosition.Longitude);
-    navigate('/');
+    ls.set("city", state.EnglishName);
+    ls.set("lat", state.GeoPosition.Latitude);
+    ls.set("lon", state.GeoPosition.Longitude);
+    navigate("/");
   }
 
   return (
     <div
-      className="bg-black text-white w-[280px] p-4"
+      className="bg-black text-white w-[280px] p-4 min-h-96"
       style={{
         backgroundImage: `url(/backImg/white.png)`,
       }}
@@ -34,10 +34,10 @@ export default function SetCity() {
         <div className="p-2">Lon : {state.GeoPosition.Longitude}</div>
       </div>
       <div className="bg-white/5 py-2 px-3 border border-white/5 rounded-xl mb-5">
-        {showData('State', state.AdministrativeArea.EnglishName)}
-        {showData('Country', state.Country.EnglishName)}
-        {showData('Region', state.Region.EnglishName)}
-        {showData('GMT offSet', state.TimeZone.GmtOffset)}
+        {showData("State", state.AdministrativeArea.EnglishName)}
+        {showData("Country", state.Country.EnglishName)}
+        {showData("Region", state.Region.EnglishName)}
+        {showData("GMT offSet", state.TimeZone.GmtOffset)}
       </div>
 
       <div>
@@ -46,7 +46,7 @@ export default function SetCity() {
             setCity();
           }}
         >
-          {' '}
+          {" "}
           Set This City
         </Button>
       </div>

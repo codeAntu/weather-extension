@@ -11,7 +11,7 @@ div::-webkit-scrollbar {
   --color-text: #000000;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --color-bg: #000000;
   --color-text: #ffffff;
 }

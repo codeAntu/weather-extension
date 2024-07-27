@@ -3,19 +3,20 @@ import {
   Droplet,
   Droplets,
   Loader,
+  MapPin,
   Moon,
   PenSquare,
   Pencil,
   Sun,
   Thermometer,
   ThermometerSun,
-} from 'lucide-react';
-import { useEffect, useState } from 'react';
-import Button from './components/Button';
-import { useNavigate } from 'react-router-dom';
-import ls from './lib/saveData';
-import API from './lib/api';
-import getWeatherEmoji from './lib/weatherEmo';
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import Button from "./components/Button";
+import { useNavigate } from "react-router-dom";
+import ls from "./lib/saveData";
+import API from "./lib/api";
+import getWeatherEmoji from "./lib/weatherEmo";
 
 function App() {
   const navigate = useNavigate();
@@ -1485,15 +1486,15 @@ function App() {
   // };
   const [weather, setWeather] = useState({} as any);
   const [IsLoading, setIsLoading] = useState(true);
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState("");
   // const [isDay, setIsDay] = useState(false);
   const now = new Date().getTime() / 1000;
-  const [color, setColor] = useState('white');
+  const [color, setColor] = useState("white");
 
   useEffect(() => {
-    const lsLon = ls.get('lon');
-    const lsLat = ls.get('lat');
-    const lsCity = ls.get('city');
+    const lsLon = ls.get("lon");
+    const lsLat = ls.get("lat");
+    const lsCity = ls.get("city");
     if (lsCity) {
       setCity(lsCity);
     }
@@ -1516,7 +1517,7 @@ function App() {
       setIsLoading(false);
       console.log(data);
     } catch {
-      console.log('error');
+      console.log("error");
     }
   }
 
@@ -1530,7 +1531,7 @@ function App() {
       const sunrise = weather.current.sunrise;
       const sunset = weather.current.sunset;
       if (now > sunrise && now < sunset) {
-        setColor('black');
+        setColor("black");
       }
     }
   }, [weather]);
@@ -1540,25 +1541,26 @@ function App() {
   if (!city) {
     return (
       <div
-        className={`bg-black text-white w-[280px] p-4 `}
+        className={`bg-black text-white w-[280px] p-4 min-h-80 flex justify-center items-center flex-col pt-10`}
         style={{
           backgroundImage: `url(/backImg/white.png)`,
         }}
       >
+        <MapPin size={40} className="" />
         <div className="text-center text-xl font-semibold p-4">Add city</div>
         <div className="text-sm opacity-70 text-center pb-6">
-          <div>Add city to get weather data.</div>
+          <div>Add city to get weather data</div>
           <div>
             Example : <span className="font-semibold">Bankura</span>
           </div>
         </div>
         <Button
           onClick={() => {
-            navigate('/city');
+            navigate("/city");
           }}
           color={color}
         >
-          {' '}
+          {" "}
           Add
         </Button>
       </div>
@@ -1581,7 +1583,7 @@ function App() {
             <PenSquare
               size={19}
               onClick={() => {
-                navigate('/city');
+                navigate("/city");
               }}
             />
           </div>
@@ -1591,7 +1593,7 @@ function App() {
           <div className={`grid grid-cols-2 gap-2 mt-4`}>
             <ShowCurr
               title="Humidity"
-              value={weather.current.humidity + '%'}
+              value={weather.current.humidity + "%"}
               icon={<Droplets size={24} />}
               color={color}
             />
@@ -1603,13 +1605,13 @@ function App() {
             />
             <ShowCurr
               title="Feels like"
-              value={kelvinToCelsius(weather.current.feels_like) + '°'}
+              value={kelvinToCelsius(weather.current.feels_like) + "°"}
               icon={<ThermometerSun size={24} />}
               color={color}
             />
             <ShowCurr
               title="pressure"
-              value={weather.current.pressure + 'hPa'}
+              value={weather.current.pressure + "hPa"}
               icon={<BarChart size={24} />}
               color={color}
             />
@@ -1617,7 +1619,7 @@ function App() {
           <div className={`flex items-center justify-around gap-3 py-2 pt-5 `}>
             <Button
               onClick={() => {
-                navigate('/today', { state: weather });
+                navigate("/today", { state: weather });
                 // share hourly data
               }}
               color={color}
@@ -1626,7 +1628,7 @@ function App() {
             </Button>
             <Button
               onClick={() => {
-                navigate('/forecast', { state: weather.daily });
+                navigate("/forecast", { state: weather.daily });
               }}
               color={color}
             >

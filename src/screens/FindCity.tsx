@@ -1,9 +1,9 @@
-import { Search, Trees } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import API from '../lib/api';
-import { useNavigate } from 'react-router-dom';
-import ls from '../lib/saveData';
-import Button from '../components/Button';
+import { MapPin, Search, Trees } from "lucide-react";
+import { useEffect, useState } from "react";
+import API from "../lib/api";
+import { useNavigate } from "react-router-dom";
+import ls from "../lib/saveData";
+import Button from "../components/Button";
 
 export default function Find() {
   const loc = {
@@ -14,12 +14,12 @@ export default function Find() {
     weather: [
       {
         id: 804,
-        main: 'Clouds',
-        description: 'overcast clouds',
-        icon: '13d',
+        main: "Clouds",
+        description: "overcast clouds",
+        icon: "13d",
       },
     ],
-    base: 'stations',
+    base: "stations",
     main: {
       temp: 305.21,
       feels_like: 312.21,
@@ -43,23 +43,23 @@ export default function Find() {
     sys: {
       type: 1,
       id: 9144,
-      country: 'IN',
+      country: "IN",
       sunrise: 1694217384,
       sunset: 1694262162,
     },
     timezone: 19800,
     id: 1277264,
-    name: 'Bānkura',
+    name: "Bānkura",
     cod: 200,
   };
 
   const [locations, setLocations] = useState(loc);
   const [searchResults, setSearchResults] = useState([]);
-  const [city, setCity] = useState('Bankura');
+  const [city, setCity] = useState("Bankura");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const data = ls.get('city');
+    const data = ls.get("city");
     if (data) {
       setCity(data);
     }
@@ -85,7 +85,7 @@ export default function Find() {
 
   return (
     <div
-      className="bg-black text-white w-[280px] px-4 max-h-96 overflow-auto"
+      className="bg-black text-white w-[280px] px-4 max-h-96 overflow-auto min-h-96"
       style={{
         backgroundImage: `url(/backImg/white.png)`,
       }}
@@ -136,7 +136,7 @@ function ShowCity({ city }: any) {
   return (
     <div className="flex justify-between items-center" onClick={() => {}}>
       <div className="line-clamp-1">
-        {city.EnglishName} , {city.AdministrativeArea.EnglishName} ,{' '}
+        {city.EnglishName} , {city.AdministrativeArea.EnglishName} ,{" "}
         {city.Country.EnglishName}
       </div>
     </div>

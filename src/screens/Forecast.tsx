@@ -1,14 +1,14 @@
-import { Backpack, Sun } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useHref, useLocation, useNavigate } from 'react-router-dom';
-import getWeatherEmoji from '../lib/weatherEmo';
+import { Backpack, Sun } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useHref, useLocation, useNavigate } from "react-router-dom";
+import getWeatherEmoji from "../lib/weatherEmo";
 
 export default function Forecast() {
   const [weather, setWeather] = useState({});
   const { state } = useLocation();
   const navigate = useNavigate();
   const now = new Date().getTime() / 1000;
-  const [color, setColor] = useState('black');
+  const [color, setColor] = useState("black");
 
   // useEffect(() => {
   //   if (state[0].current) {
@@ -68,22 +68,22 @@ function getDate(time: number) {
   let day = date.getDate().toString();
   let month = (date.getMonth() + 1).toString();
   if (day.length === 1) {
-    day = '0' + day;
+    day = "0" + day;
   }
   if (month.length === 1) {
-    month = '0' + month;
+    month = "0" + month;
   }
-  return day + ' / ' + month;
+  return day + " / " + month;
 }
 
 function getDay(time: number) {
   const dayDate = new Date(time);
   const todayDate = new Date();
   if (dayDate.getDate() === todayDate.getDate()) {
-    return 'Today';
+    return "Today";
   }
 
-  return dayDate.toLocaleDateString('en-US', { weekday: 'short' });
+  return dayDate.toLocaleDateString("en-US", { weekday: "short" });
 }
 
 function kelvinToCelsius(kelvin: number) {

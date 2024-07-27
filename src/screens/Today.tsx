@@ -1,15 +1,12 @@
-import { ChevronLeft, Droplet, Dumbbell, Moon, ShieldPlus, Sun, Sunrise, Sunset, Tornado, Wind } from 'lucide-react';
+import { ChevronLeft, Droplet, ShieldPlus, Sunrise, Sunset, Tornado, Wind } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import ls from '../lib/saveData';
-import API from '../lib/api';
-import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import getWeatherEmoji from '../lib/weatherEmo';
 
 export default function Today() {
   const { state } = useLocation();
   const time = new Date().getTime();
   const hourly: Array<any> = [];
-  const now = new Date().getTime() / 1000;
   const [color, setColor] = useState('white');
   const navigate = useNavigate();
 
@@ -19,28 +16,14 @@ export default function Today() {
     }
   });
 
-  console.log(time);
-  console.log(state);
-  console.log(hourly);
-
-  useEffect(() => {
-    if (state.current) {
-      const sunrise = state.current.sunrise;
-      const sunset = state.current.sunset;
-      if (now > sunrise && now < sunset) {
-        setColor('white');
-      }
-    }
-  }, []);
-
   return (
     <div
-      className={`bg-${color} text-${color} w-[280px] p-4`}
+      className={`bg-${color} text-${color} w-[280px] p-2 py-5`}
       style={{
         backgroundImage: `url(/backImg/${color}.png)`,
       }}
     >
-      <div className='flex items-center gap-2 pb-1 pt-4'>
+      <div className='flex items-center gap-2'>
         <ChevronLeft
           className='cursor-pointer rounded-lg bg-white/0 p-1 duration-200 hover:bg-white/5'
           size={30}
@@ -48,40 +31,52 @@ export default function Today() {
         />
         <div className='text-center font-rubik text-base font-medium'> Today</div>
       </div>
-      {/* <div className='text-center text-xl font-medium'>Today</div> */}
-      <div className={`my-5 p-2 bg-${color}/5 border border-${color}/5 rounded-xl`}>
-        <div className='flex items-center justify-between'>
-          {hourly.map((element: any) => {
-            return (
-              <div className={`grid gap-1 p-2 text-${color}`} key={element.dt}>
-                <div className=''>{new Date(element.dt * 1000).getHours()}:00</div>
-                <div>{getWeatherEmoji(element.weather[0].icon)}</div>
-                <div>{kelvinToCelsius(element.temp)}&deg;</div>
-              </div>
-            );
-          })}
+      <div className='flex flex-col gap-2.5 px-2 py-2 pt-3'>
+        <div className={`p-2 bg-${color}/5 border border-${color}/5 rounded-xl`}>
+          <div className='flex items-center justify-between'>
+            {hourly.map((element: any) => {
+              return (
+                <div className={`flex flex-col items-center justify-center gap-1 p-2 text-${color}`} key={element.dt}>
+                  <div className=''>{new Date(element.dt * 1000).getHours()}:00</div>
+                  <div>{getWeatherEmoji(element.weather[0].icon)}</div>
+                  <div>{kelvinToCelsius(element.temp)}&deg;</div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div className='mt-4 grid grid-cols-2 gap-2'>
-        <ShowCurr title='UV' value={state.current.uvi} icon={<ShieldPlus size={20} />} color={color} />
-        <ShowCurr title='Wind direction' value={state.current.wind_deg + '°'} icon={<Wind size={20} />} color={color} />
-        <ShowCurr
-          title='Wind speed'
-          value={state.current.wind_speed + 'm/s'}
-          icon={<Tornado size={20} />}
-          color={color}
-        />
-        <ShowCurr title='Due point' value={state.current.dew_point + '°'} icon={<Droplet size={20} />} color={color} />
-      </div>
-
-      <div className={`my-5 bg-${color}/5 space-y-2 rounded-xl border p-3 border-${color}/5`}>
-        <ShowSun
-          time1={new Date(state.current.sunrise * 1000).toLocaleTimeString()}
-          time2={new Date(state.current.sunset * 1000).toLocaleTimeString()}
-          title1='Sunrise'
-          title2='Sunset'
-          color={color}
-        />
+        <div className='grid grid-cols-2 gap-2'>
+          <ShowCurr title='UV' value={state.current.uvi} icon={<ShieldPlus size={20} />} color={color} />
+          <ShowCurr
+            title='Wind direction'
+            value={state.current.wind_deg + '°'}
+            icon={<Wind size={20} />}
+            color={color}
+          />
+        </div>
+        <div className='grid grid-cols-2 gap-2'>
+          <ShowCurr
+            title='Wind speed'
+            value={state.current.wind_speed + 'm/s'}
+            icon={<Tornado size={20} />}
+            color={color}
+          />
+          <ShowCurr
+            title='Due point'
+            value={state.current.dew_point + '°'}
+            icon={<Droplet size={20} />}
+            color={color}
+          />
+        </div>
+        <div className={`bg-${color}/5 space-y-2 rounded-xl border p-3 border-${color}/5`}>
+          <ShowSun
+            time1={new Date(state.current.sunrise * 1000).toLocaleTimeString()}
+            time2={new Date(state.current.sunset * 1000).toLocaleTimeString()}
+            title1='Sunrise'
+            title2='Sunset'
+            color={color}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { ChevronLeft, DumbbellIcon } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import ls from '../lib/saveData';

@@ -1,25 +1,16 @@
-import { ChevronLeft, Divide, MapPin, Search, Trees } from 'lucide-react';
+import { ChevronLeft,Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import API from '../lib/api';
 import { useNavigate } from 'react-router-dom';
 import ls from '../lib/saveData';
-import Button from '../components/Button';
 
 export default function Find() {
   const [locations, setLocations] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [city, setCity] = useState( ls.get('searchedCity') || '');
+  const [city, setCity] = useState(ls.get('searchedCity') || '');
   const [loading, setLoading] = useState(false);
   const [found, setFound] = useState(true);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const data = ls.get('searchedCity')
-  //   if (data) {
-  //     setCity(data);
-  //     console.log(data);
-  //   }
-  // }, []);
 
   async function getResults(query: string) {
     setSearchResults([]);
@@ -35,7 +26,6 @@ export default function Find() {
       }
 
       setSearchResults(result);
-      // console.log(searchResults);
     } catch (err) {
       console.log(err);
     }
@@ -52,14 +42,9 @@ export default function Find() {
     setSearchResults([]);
   }, [city]);
 
-  // console.log(searchResults);
-
-  // console.log(city);
-  // console.log(ls.get('searchedCity'));
-
   return (
     <div
-      className='max-h-96 min-h-96 w-[280px] font-poppins overflow-auto bg-black px-2.5 pb-2.5 text-white'
+      className='max-h-96 min-h-96 w-[280px] overflow-auto bg-black px-2.5 pb-2.5 font-poppins text-white'
       style={{
         backgroundImage: `url(/backImg/white.png)`,
       }}
@@ -70,14 +55,14 @@ export default function Find() {
           size={30}
           onClick={() => navigate('/')}
         />
-        <div className='text-center text-base font-medium font-rubik'>Find Your City</div>
+        <div className='text-center font-rubik text-base font-medium'>Find Your City</div>
       </div>
 
-      <div className='mx-2 flex items-center justify-between gap-2 rounded-xl border border-white/35 px-3 pr-2.5 py-1.5'>
+      <div className='mx-2 flex items-center justify-between gap-2 rounded-xl border border-white/35 px-3 py-1.5 pr-2.5'>
         <input
           type='text'
           value={city}
-          className='border-none bg-transparent text-white/80 outline-none text-sm'
+          className='border-none bg-transparent text-sm text-white/80 outline-none'
           onChange={(e) => {
             setCity(e.target.value);
           }}

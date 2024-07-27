@@ -1,4 +1,4 @@
-import { Backpack, Sun } from "lucide-react";
+import { Backpack, ChevronLeft, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useHref, useLocation, useNavigate } from "react-router-dom";
 import getWeatherEmoji from "../lib/weatherEmo";
@@ -7,18 +7,8 @@ export default function Forecast() {
   const [weather, setWeather] = useState({});
   const { state } = useLocation();
   const navigate = useNavigate();
-  const now = new Date().getTime() / 1000;
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("white");
 
-  // useEffect(() => {
-  //   if (state[0].current) {
-  //     const sunrise = state[0].current.sunrise;
-  //     const sunset = state[0].current.sunset;
-  //     if (now > sunrise || now < sunset) {
-  //       setColor('black');
-  //     }
-  //   }
-  // }, [state]);
 
   return (
     <div
@@ -27,10 +17,15 @@ export default function Forecast() {
         backgroundImage: `url(/backImg/${color}.png)`,
       }}
     >
-      
-      <div className={`text-center text-xl font-medium opacity-80 `}>
-        Weather Forecast
+      <div className='flex items-center gap-2'>
+        <ChevronLeft
+          className='cursor-pointer rounded-lg bg-white/0 p-1 duration-200 hover:bg-white/5'
+          size={30}
+          onClick={() => navigate('/')}
+        />
+        <div className='text-center font-rubik text-base font-medium'> Weather Forecast</div>
       </div>
+      
       <div className=" py-2"></div>
       <div className={`bg-${color}/5 rounded-xl px-4 py-3.5 grid gap-3.5`}>
         {state.map((element: any) => {

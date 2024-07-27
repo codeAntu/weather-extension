@@ -1,14 +1,9 @@
 import {
   BarChart,
-  Droplet,
   Droplets,
   Loader,
   MapPin,
-  Moon,
   PenSquare,
-  Pencil,
-  Sun,
-  Thermometer,
   ThermometerSun,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -25,8 +20,6 @@ function App() {
   const [weather, setWeather] = useState({} as any);
   const [IsLoading, setIsLoading] = useState(true);
   const [city, setCity] = useState('');
-  // const [isDay, setIsDay] = useState(false);
-  const now = new Date().getTime() / 1000;
   const [color, setColor] = useState('white');
 
   useEffect(() => {
@@ -64,16 +57,6 @@ function App() {
     return Math.round((k - 273.15) * 10) / 10;
   }
 
-  useEffect(() => {
-    if (weather.current) {
-      const sunrise = weather.current.sunrise;
-      const sunset = weather.current.sunset;
-      if (now > sunrise && now < sunset) {
-        setColor('black');
-      }
-    }
-  }, [weather]);
-
   console.log(color);
 
   
@@ -109,6 +92,8 @@ function App() {
 
   console.log(color);
 
+
+
   return (
     <>
       {!IsLoading ? (
@@ -121,7 +106,8 @@ function App() {
           <div className={`flex items-center justify-between px-1`}>
             <div className={`text-xl font-semibold`}>{city}</div>
             <PenSquare
-              size={19}
+              size={30}
+              className='cursor-pointer rounded-lg bg-white/0 p-1.5 duration-200 hover:bg-white/5'
               onClick={() => {
                 navigate('/city');
               }}
@@ -186,16 +172,16 @@ function App() {
           <div className={`flex items-center justify-between px-1`}>
             <div className={`text-xl font-semibold`}>{city}</div>
             <PenSquare
-              size={19}
+              size={30}
+              className='cursor-pointer rounded-lg bg-white/0 p-1.5 duration-200 hover:bg-white/5'
               onClick={() => {
                 navigate('/city');
               }}
             />
           </div>
           <div className={`py-3 text-center text-7xl font-semibold`}>
-            {/* <div className=''>00.0&deg;</div> */}
             <div className='text-center flex justify-center items-center py-6'>
-              <Loader size={30} />
+              <Loader size={30}  />
             </div>
           </div>
           <div className={`mt-4 grid grid-cols-2 gap-2`}>

@@ -1,14 +1,7 @@
-import {
-  BarChart,
-  Droplets,
-  Loader,
-  MapPin,
-  PenSquare,
-  ThermometerSun,
-} from 'lucide-react';
+import { BarChart, Droplets, Loader, MapPin, PenSquare, ThermometerSun } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Button from './components/Button';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import ls from './lib/saveData';
 import API from './lib/api';
 import getWeatherEmoji from './lib/weatherEmo';
@@ -21,6 +14,7 @@ function App() {
   const [IsLoading, setIsLoading] = useState(true);
   const [city, setCity] = useState('');
   const [color, setColor] = useState('white');
+  // const [time, setTime] = useState(new Date().getTime());
 
   useEffect(() => {
     const lsLon = ls.get('lon');
@@ -41,12 +35,25 @@ function App() {
   }, [lon, lat, city]);
 
   async function getWeather() {
+    const preTime = new Date(Number(localStorage.getItem('time')));
+    const preData = JSON.parse(localStorage.getItem('weather') || '{}');
+    
+    if (preData && preTime && new Date().getTime() - preTime.getTime() < 600000) {
+      setWeather(preData);
+      setIsLoading(false);
+      return;
+    }
+    
     try {
+
+      console.log("wdkqwbk,jwndf");
+      
       const response = await fetch(API.weather(lon, lat));
       const data = await response.json();
       setWeather(data);
+      localStorage.setItem('weather', JSON.stringify(data));
+      localStorage.setItem('time', new Date().getTime().toString()); // Corrected
       setIsLoading(false);
-      console.log(data);
     } catch {
       console.log('error');
     }
@@ -57,14 +64,10 @@ function App() {
     return Math.round((k - 273.15) * 10) / 10;
   }
 
-  console.log(color);
-
-  
-
   if (!city) {
     return (
       <div
-        className={`flex min-h-80 w-[280px] flex-col font-poppins items-center justify-center bg-black p-4 pt-10 text-white`}
+        className={`flex min-h-80 w-[280px] flex-col items-center justify-center bg-black p-4 pt-10 font-poppins text-white`}
         style={{
           backgroundImage: `url(/backImg/white.png)`,
         }}
@@ -90,9 +93,7 @@ function App() {
     );
   }
 
-  console.log(color);
-
-
+  // console.log(color);
 
   return (
     <>
@@ -106,14 +107,14 @@ function App() {
           <div className={`flex items-center justify-between px-1`}>
             <div className={`text-xl font-semibold`}>{city}</div>
             <PenSquare
-              size={30}
               className='cursor-pointer rounded-lg bg-white/0 p-1.5 duration-200 hover:bg-white/5'
+              size={31}
               onClick={() => {
                 navigate('/city');
               }}
             />
           </div>
-          <div className={`pb-2 text-center text-7xl font-semibold pt-5`}>
+          <div className={`pb-2 pt-5 text-center text-7xl font-semibold`}>
             <div className=''>{kelvinToCelsius(weather.current.temp)}&deg;</div>
           </div>
           <div className={`mt-4 grid grid-cols-2 gap-2`}>
@@ -164,7 +165,7 @@ function App() {
         </div>
       ) : (
         <div
-          className={`bg-${color} text-${color} w-[280px] p-4 font-poppins` }
+          className={`bg-${color} text-${color} w-[280px] p-4 font-poppins`}
           style={{
             backgroundImage: `url(/backImg/${color}.png)`,
           }}
@@ -172,22 +173,23 @@ function App() {
           <div className={`flex items-center justify-between px-1`}>
             <div className={`text-xl font-semibold`}>{city}</div>
             <PenSquare
-              size={30}
               className='cursor-pointer rounded-lg bg-white/0 p-1.5 duration-200 hover:bg-white/5'
+              size={30}
               onClick={() => {
                 navigate('/city');
               }}
             />
           </div>
           <div className={`py-3 text-center text-7xl font-semibold`}>
-            <div className='text-center flex justify-center items-center py-6'>
-              <Loader size={30}  />
+            {/* <div className=''>00.0&deg;</div> */}
+            <div className='py-z flex items-center justify-center text-center'>
+              <Loader size={31} />
             </div>
           </div>
           <div className={`mt-4 grid grid-cols-2 gap-2`}>
-            <ShowCurr title='Humidity' value={'---' } icon={<Droplets size={24} />} color={color} />
-            <ShowCurr title='' value={'clouds'} color={color} />
-            <ShowCurr title='Feels like' value={'---' } icon={<ThermometerSun size={24} />} color={color} />
+            <ShowCurr title='Humidity' value={'---'} icon={<Droplets size={24} />} color={color} />
+            <ShowCurr title='' value={'cloudy'} color={color} />
+            <ShowCurr title='Feels like' value={'---'} icon={<ThermometerSun size={24} />} color={color} />
             <ShowCurr title='pressure' value={'---'} icon={<BarChart size={24} />} color={color} />
           </div>
           <div className={`flex items-center justify-around gap-3 py-2 pt-5`}>

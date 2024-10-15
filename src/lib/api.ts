@@ -1,4 +1,4 @@
-const ACCUWEATHER_API_KEY = "C42OAAd8AANIyi8SLoqvq3mm59vADvRA"; // Old API key: FqLdDZQkQofVcwsdCHX7uKdPVgWcPGHI
+const ACCUWEATHER_API_KEY = "seApxVrpXLr8jHwgVOzUDpJqbsaECaIz"; // Old API key: FqLdDZQkQofVcwsdCHX7uKdPVgWcPGHI
 const OPENWEATHER_API_KEY = "0e376e0750966cdba160fc85a4bb0427";
 
 const API = {
